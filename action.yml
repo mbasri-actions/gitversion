@@ -116,7 +116,8 @@ runs:
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git tag -d "v${{ steps.gitversion.outputs.major }}" || true
         git push origin ":refs/tags/v${{ steps.gitversion.outputs.major }}" || true
-        git tag "v${{ steps.gitversion.outputs.major }}" -m "$(git log -1 --pretty=%s)"
+        git tag "v${{ steps.gitversion.outputs.major }}"
+        git push origin "v${{ steps.gitversion.outputs.major }}"
 
     - name: Push Major.Minor Version Tag
       if: ${{ inputs.pushMajorMinorVersionTag == 'true' }}
@@ -126,7 +127,8 @@ runs:
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git tag -d "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" || true
         git push origin ":refs/tags/v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" || true
-        git tag "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" -m "$(git log -1 --pretty=%s)"
+        git tag "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}"
+        git push origin "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}"
     
     - name: Push Major.Minor.Patch Version Tag
       if: ${{ inputs.pushMajorMinorPatchVersionTag == 'true' }}
@@ -134,7 +136,8 @@ runs:
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
-        git tag "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}" -m "$(git log -1 --pretty=%s)"
+        git tag "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
+        git push origin "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
 
     - name: Set outputs
       shell: bash
