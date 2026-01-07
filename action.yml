@@ -115,24 +115,36 @@ runs:
 
     - name: Push Major Version Tag
       #if: ${{ inputs.pushMajorVersionTag == 'true' }}
-      uses: gittools/actions/gitversion/push@v4
-      with:
-        tag: 'v${{ steps.gitversion.outputs.major }}'
-        github_token: ${{ inputs.githubToken }}
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.githubToken }}
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag "v${{ steps.gitversion.outputs.major }}"
+        git push origin "v${{ steps.gitversion.outputs.major }}"
 
     - name: Push Major.Minor Version Tag
       #if: ${{ inputs.pushMajorMinorVersionTag == 'true' }}
-      uses: gittools/actions/gitversion/push@v4
-      with:
-        tag: 'v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}'
-        github_token: ${{ inputs.githubToken }}
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.githubToken }}
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}"
+        git push origin "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}"
     
     - name: Push Major.Minor.Patch Version Tag
       #if: ${{ inputs.pushMajorMinorPatchVersionTag == 'true' }}
-      uses: gittools/actions/gitversion/push@v4
-      with:
-        tag: 'v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}'
-        github_token: ${{ inputs.githubToken }}
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.githubToken }}
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
+        git push origin "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
 
     - name: Set outputs
       shell: bash
