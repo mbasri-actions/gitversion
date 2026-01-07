@@ -27,6 +27,11 @@ inputs:
     required: false
     default: 'false'
 
+  githubToken:
+    description: 'GitHub token for pushing tags'
+    required: false
+    default: ''
+
 outputs:
   majorVersion:
     description: 'Major version number'
@@ -107,6 +112,27 @@ runs:
       uses: gittools/actions/gitversion/execute@v4
       with:
         configFilePath: ${{ inputs.configFilePath }}
+
+    - name: Push Major Version Tag
+      #if: ${{ inputs.pushMajorVersionTag == 'true' }}
+      uses: gittools/actions/gitversion/push@v4
+      with:
+        tag: 'v${{ steps.gitversion.outputs.major }}'
+        github_token: ${{ inputs.githubToken }}
+
+    - name: Push Major.Minor Version Tag
+      #if: ${{ inputs.pushMajorMinorVersionTag == 'true' }}
+      uses: gittools/actions/gitversion/push@v4
+      with:
+        tag: 'v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}'
+        github_token: ${{ inputs.githubToken }}
+    
+    - name: Push Major.Minor.Patch Version Tag
+      #if: ${{ inputs.pushMajorMinorPatchVersionTag == 'true' }}
+      uses: gittools/actions/gitversion/push@v4
+      with:
+        tag: 'v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}'
+        github_token: ${{ inputs.githubToken }}
 
     - name: Set outputs
       shell: bash

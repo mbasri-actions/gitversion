@@ -46,7 +46,8 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - name: Tag the repo
+    
+    - name: Generate semantic version and tag repository
       id: gitversion
       uses: mbasri-actions/gitversion@v1.0.0
 ```
