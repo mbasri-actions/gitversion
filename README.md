@@ -11,20 +11,14 @@ This GitHub Action automates the process of determining and tagging the semantic
 
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| [actions/checkout](https://github.com/actions/checkout) | 4.0.0 or later |
-| [mbasri-actions/tag-version](https://github.com/mbasri-actions/tag-version) | 1.0.0 or later |
+`No Requirements`
 
 ## Inputs
 
 | Name | Description | Required | Default |
 | --- | --- | --- | --- |
-| <a name="input_configFilePath"></a> [configFilePath](#input_configFilePath) | Path to your `gitversion.yml` configuration file | false | `gitversion.yml` |
-| <a name="input_tagPrefix"></a> [tagPrefix](#input_tagPrefix) | Prefix to add to the generated tag (e.g. `v`) | false | `` |
-| <a name="input_pushTag"></a> [pushTag](#input_pushTag) | Whether to push the generated tag to the remote | false | `true` |
-| <a name="input_githubToken"></a> [githubToken](#input_githubToken) | GitHub token for authentication | true | `${{ github.token }}` |
-
+| <a name="input_useDefaultConfig"></a> [useDefaultConfig](#input_useDefaultConfig) | Whether to use the default GitVersion configuration | false | `true` |
+| <a name="input_configFilePath"></a> [configFilePath](#input_configFilePath) | Path to a custom GitVersion configuration file | false | `gitversion.yml` |
 
 ## Outputs
 
@@ -55,8 +49,6 @@ jobs:
     - name: Tag the repo
       id: gitversion
       uses: mbasri-actions/tag-version@v1.0.0
-      with:
-        configFilePath: gitversion.yml
 ```
 
 ## Author

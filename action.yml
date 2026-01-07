@@ -1,10 +1,15 @@
 name: 'GitVersion Action'
 description: 'This GitHub Action extracts version information using GitVersion.'
 
-# inputs:
-#   github-token:
-#     description: 'GitHub Token for authentication'
-#     required: true
+inputs:
+  useDefaultConfig:
+    description: 'Whether to use the default GitVersion configuration'
+    required: false
+    default: 'true'
+  configFilePath:
+    description: 'Path to a custom GitVersion configuration file'
+    required: false
+    default: 'gitversion.yml'
 
 # outputs:
 #   gitversion-fullsemver:
@@ -17,9 +22,51 @@ description: 'This GitHub Action extracts version information using GitVersion.'
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+    - name: Create default GitVersion config
+      if: ${{ inputs.use-default-config == 'true' }}
+      shell: bash
+      run: |
+            cat > gitversion.yml << 'EOF'
+            workflow: GitHubFlow/v1
+            
+            tag-prefix: '[vV]'
+            
+            major-version-bump-message: '(BREAKING CHANGE|^.+!:)'
+            minor-version-bump-message: '^feat(\([^)]+\))?:\s'
+            patch-version-bump-message: '^(fix|perf|refactor|revert)(\([^)]+\))?:\s'
+            no-bump-message: '^(chore|docs|style|test|ci)(\([^)]+\))?:\s'
+            
+            commit-message-incrementing: Enabled
+            
+            strategies:
+              - MergeMessage
+              - TaggedCommit
+              - TrackReleaseBranches
+              - VersionInBranchName
+            
+            branches:
+              main:
+                mode: ContinuousDeployment
+                increment: Patch
+                regex: ^master$|^main$
+                is-main-branch: true
+                
+              release:
+                mode: ContinuousDeployment
+                increment: None
+                regex: ^release/(?<BranchName>[0-9]+\.[0-9]+\.[0-9]+)$
+                is-release-branch: true
+              
+              develop:
+                mode: ContinuousDelivery
+                increment: Minor
+                regex: ^dev(elop)?(ment)?$
+
+            commit-date-format: ddMMyyyy
+
+            assembly-versioning-scheme: MajorMinorPatch
+            assembly-informational-format: '{SemVer}'
+            EOF
 
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v4
@@ -29,6 +76,8 @@ runs:
     - name: Execute GitVersion
       id: gitversion
       uses: gittools/actions/gitversion/execute@v4
+      with:
+        configFilePath: ${{ inputs.configFilePath }}
 
     - name: Set outputs
       shell: bash
