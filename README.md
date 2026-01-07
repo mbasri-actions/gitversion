@@ -48,7 +48,7 @@ jobs:
         fetch-depth: 0
     - name: Tag the repo
       id: gitversion
-      uses: mbasri-actions/tag-version@v1.0.0
+      uses: mbasri-actions/gitversion@v1.0.0
 ```
 
 ## Author
