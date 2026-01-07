@@ -6,24 +6,53 @@ inputs:
     description: 'Whether to use the default GitVersion configuration'
     required: false
     default: 'true'
+
   configFilePath:
     description: 'Path to a custom GitVersion configuration file'
     required: false
     default: 'gitversion.yml'
 
-# outputs:
-#   gitversion-fullsemver:
-#     description: 'FullSemVer from GitVersion'
-#     value: ${{ steps.gitversion.outputs.fullSemVer }}
-#   gitversion-sha:
-#     description: 'Current commit SHA'
-#     value: ${{ steps.gitversion.outputs.sha }}
+  pushMajorVersionTag:
+    description: 'Whether to push a Major version tag to the repository'
+    required: false
+    default: 'false'
+
+  pushMajorMinorVersionTag:
+    description: 'Whether to push a Major.Minor version tag to the repository'
+    required: false
+    default: 'false'
+
+  pushMajorMinorPatchVersionTag:
+    description: 'Whether to push a Major.Minor.Patch version tag to the repository'
+    required: false
+    default: 'false'
+
+outputs:
+  majorVersion:
+    description: 'Major version number'
+    value: ${{ steps.gitversion.outputs.major }}
+
+  minorVersion:
+    description: 'Minor version number'
+    value: ${{ steps.gitversion.outputs.minor }}
+
+  patchVersion:
+    description: 'Patch version number'
+    value: ${{ steps.gitversion.outputs.patch }}
+
+  majorMinorVersion:
+    description: 'Major.Minor version'
+    value: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}
+  
+  majorMinorPatchVersion:
+    description: 'Major.Minor.Patch version'
+    value: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}
 
 runs:
   using: 'composite'
   steps:
     - name: Create default GitVersion config
-      if: ${{ inputs.use-default-config == 'true' }}
+      if: ${{ inputs.useDefaultConfig == 'true' }}
       shell: bash
       run: |
             cat > gitversion.yml << 'EOF'
