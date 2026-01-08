@@ -164,7 +164,7 @@ runs:
         git push origin ":refs/tags/v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" || true
 
         #echo "Creating temporary branch for release..."
-        git checkout -b tmp-release-major-minor
+        #git checkout -b tmp-release-major-minor
 
         if [ "${{ inputs.isTerraformModule }}" = "true" ]; then
           echo "Updating Terraform files with new major.minor version..."
