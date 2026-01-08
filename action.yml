@@ -56,6 +56,17 @@ outputs:
 runs:
   using: 'composite'
   steps:
+    - name: Check commit author
+      id: author-check
+      run: |
+        AUTHOR=$(git log -1 --pretty=format:'%an')
+        echo "Last commit author: $AUTHOR"
+        if [ "$AUTHOR" = "github-actions[bot]" ]; then
+          echo "Commit author is github-actions[bot], skipping workflow."
+          exit 78
+        fi
+      shell: bash
+
     - name: Create default GitVersion config
       if: ${{ inputs.useDefaultConfig == 'true' }}
       shell: bash
