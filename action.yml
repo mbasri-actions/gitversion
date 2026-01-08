@@ -12,6 +12,11 @@ inputs:
     required: false
     default: 'gitversion.yml'
 
+  isTerraformModule:
+    description: 'Whether the repository is a Terraform module'
+    required: false
+    default: 'false'
+
   pushMajorVersionTag:
     description: 'Whether to push a Major version tag to the repository'
     required: false
@@ -116,8 +121,15 @@ runs:
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git tag -d "v${{ steps.gitversion.outputs.major }}" || true
         git push origin ":refs/tags/v${{ steps.gitversion.outputs.major }}" || true
+
+        if [ "${{ inputs.isTerraformModule }}" = "true" ]; then
+          echo ztototo
+        fi
+
         git tag "v${{ steps.gitversion.outputs.major }}"
         git push origin "v${{ steps.gitversion.outputs.major }}"
+
+
 
     - name: Push Major.Minor Version Tag
       if: ${{ inputs.pushMajorMinorVersionTag == 'true' }}
