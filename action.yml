@@ -146,12 +146,20 @@ runs:
       with:
         configFilePath: ${{ inputs.gitVersionConfigFilePath }}
 
+    - name: Export version variables
+      shell: bash
+      run: |
+        echo "MAJOR=${{ steps.gitversion.outputs.major }}" >> $GITHUB_ENV
+        echo "MINOR=${{ steps.gitversion.outputs.minor }}" >> $GITHUB_ENV
+        echo "PATCH=${{ steps.gitversion.outputs.patch }}" >> $GITHUB_ENV
+
     - name: Configure Git
       shell: bash
       run: |
         echo "==> Configuring Git user..."
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
+        echo "${MAJOR},${MINOR},${PATCH}"
 
     - name: Push Major Version Tag
       shell: bash
