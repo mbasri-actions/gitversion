@@ -134,12 +134,9 @@ runs:
         git tag -d "v${{ steps.gitversion.outputs.major }}" || true
         git push origin ":refs/tags/v${{ steps.gitversion.outputs.major }}" || true
 
-        #echo "Creating temporary branch for release..."
-        #git checkout -b tmp-release-major
-
         if [ "${{ inputs.isTerraformModule }}" = "true" ]; then
           echo "Updating Terraform files with new major version..."
-          sed -i "s/\(\"technical:module:version\"\).*/\1: \"${{ steps.gitversion.outputs.major }}\"/" 01-locals.tf
+          sed -i "s/\(\"technical:module:version\"\).*/\1 : \"${{ steps.gitversion.outputs.major }}\"/" 01-locals.tf
           sed -i "s/\(terraform-aws-.*?ref=\).*/\1v${{ steps.gitversion.outputs.major }}\"/" README.md
           sed -i "s/\(terraform-aws-.*?ref=\).*/\1v${{ steps.gitversion.outputs.major }}\"/" .terraform-docs.yml
         fi
@@ -162,12 +159,9 @@ runs:
         git tag -d "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" || true
         git push origin ":refs/tags/v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" || true
 
-        #echo "Creating temporary branch for release..."
-        #git checkout -b tmp-release-major-minor
-
         if [ "${{ inputs.isTerraformModule }}" = "true" ]; then
           echo "Updating Terraform files with new major.minor version..."
-          sed -i "s/\(\"technical:module:version\"\).*/\1: \"${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}\"/" 01-locals.tf
+          sed -i "s/\(\"technical:module:version\"\).*/\1 : \"${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}\"/" 01-locals.tf
           sed -i "s/\(terraform-aws-.*?ref=\).*/\1v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}\"/" README.md
           sed -i "s/\(terraform-aws-.*?ref=\).*/\1v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}\"/" .terraform-docs.yml
         fi
@@ -186,12 +180,9 @@ runs:
       run: |
         echo "==> Preparing to push Major.Minor.Patch version tag: v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
 
-        #echo "Creating temporary branch for release..."
-        #git checkout -b tmp-release-major-minor-patch
-
         if [ "${{ inputs.isTerraformModule }}" = "true" ]; then
           echo "Updating Terraform files with new major.minor.patch version..."
-          sed -i "s/\(\"technical:module:version\"\).*/\1: \"${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}\"/" 01-locals.tf
+          sed -i "s/\(\"technical:module:version\"\).*/\1 : \"${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}\"/" 01-locals.tf
           sed -i "s/\(terraform-aws-.*?ref=\).*/\1v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}\"/" README.md
           sed -i "s/\(terraform-aws-.*?ref=\).*/\1v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}\"/" .terraform-docs.yml
         fi
