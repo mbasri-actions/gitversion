@@ -124,6 +124,7 @@ runs:
         echo "==> Configuring Git user..."
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
+        CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
     - name: Push Major Version Tag
       if: ${{ inputs.pushMajorVersionTag == 'true' }}
@@ -135,8 +136,8 @@ runs:
         git tag -d "v${{ steps.gitversion.outputs.major }}" || true
         git push origin ":refs/tags/v${{ steps.gitversion.outputs.major }}" || true
 
-        echo "Creating temporary branch for release..."
-        git checkout -b tmp-release-major
+        #echo "Creating temporary branch for release..."
+        #git checkout -b tmp-release-major
 
         if [ "${{ inputs.isTerraformModule }}" = "true" ]; then
           echo "Updating Terraform files with new major version..."
@@ -163,7 +164,7 @@ runs:
         git tag -d "v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" || true
         git push origin ":refs/tags/v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" || true
 
-        echo "Creating temporary branch for release..."
+        #echo "Creating temporary branch for release..."
         git checkout -b tmp-release-major-minor
 
         if [ "${{ inputs.isTerraformModule }}" = "true" ]; then
@@ -187,8 +188,8 @@ runs:
       run: |
         echo "==> Preparing to push Major.Minor.Patch version tag: v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
 
-        echo "Creating temporary branch for release..."
-        git checkout -b tmp-release-major-minor-patch
+        #echo "Creating temporary branch for release..."
+        #git checkout -b tmp-release-major-minor-patch
 
         if [ "${{ inputs.isTerraformModule }}" = "true" ]; then
           echo "Updating Terraform files with new major.minor.patch version..."
@@ -208,7 +209,6 @@ runs:
     - name: Push changes in current branch
       shell: bash
       run: |
-        CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
         echo "Pushing changes to origin branch $CURRENT_BRANCH..."
         git push origin "$CURRENT_BRANCH"
 
