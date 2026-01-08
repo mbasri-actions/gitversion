@@ -118,7 +118,7 @@ runs:
         # Template for each version
         body = """
 
-        ## [CHANGEME](${{ github.repository }}/-/compare/{{ previous.version }}...CHANGEME) ({{ timestamp | date("%Y-%m-%d") }})
+        ## [CHANGEME](${{ github.repository }}/-/compare/{{ previous.version }}...CHANGEME) ({{ timestamp | date(format="%Y-%m-%d") }})
         {% for commit in commits %}- {{ commit.message | split(pat="\n") | first | upper_first }}\n{% endfor %}
 
         """
