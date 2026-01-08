@@ -107,6 +107,7 @@ runs:
 
         # Template for each version
         body = """
+
         ## [CHANGEME](${{ github.repository }}/-/compare/{{ previous.version }}...CHANGEME) ({{ timestamp | date(format="%Y-%m-%d") }})
         {% for commit in commits %}- {{ commit.message | split(pat="\n") | first | upper_first }}\n{% endfor %}
 
@@ -146,7 +147,7 @@ runs:
 
         echo "Generating changelog with git-cliff..."
         git cliff --config cliff.toml -l --prepend CHANGELOG.md
-        sed -i "s/CHANGEME/${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}/" CHANGELOG.md
+        sed -i "s/CHANGEME/${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}/g" CHANGELOG.md
 
         if [ "${{ inputs.isTerraformModule }}" = "true" ]; then
           echo "Updating Terraform files with new major.minor.patch version..."
