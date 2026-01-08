@@ -124,7 +124,6 @@ runs:
         echo "==> Configuring Git user..."
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
-        CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
     - name: Push Major Version Tag
       if: ${{ inputs.pushMajorVersionTag == 'true' }}
@@ -210,6 +209,7 @@ runs:
       shell: bash
       run: |
         echo "Pushing changes to origin branch $CURRENT_BRANCH..."
+        CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
         git push origin "$CURRENT_BRANCH"
 
     - name: Set outputs
