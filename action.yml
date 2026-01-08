@@ -123,8 +123,9 @@ runs:
         git push origin ":refs/tags/v${{ steps.gitversion.outputs.major }}" || true
 
         if [ "${{ inputs.isTerraformModule }}" = "true" ]; then
-          sed "s/\("technical:module:version"\).*/\1: \"v${{ steps.gitversion.outputs.major }}\"/" 01-locals.tf
-          sed "s/\(terraform-aws-.*?ref=\).*/\1${{ steps.gitversion.outputs.major }}\"/" README.md
+          sed -i "s/\("technical:module:version"\).*/\1: \"${{ steps.gitversion.outputs.major }}\"/" 01-locals.tf
+          sed -i "s/\(terraform-aws-.*?ref=\).*/\1v${{ steps.gitversion.outputs.major }}\"/" README.md
+          sed -i "s/\(terraform-aws-.*?ref=\).*/\1v${{ steps.gitversion.outputs.major }}\"/" .terraform-docs.yml
         fi
 
         git tag "v${{ steps.gitversion.outputs.major }}"
