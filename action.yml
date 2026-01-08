@@ -174,7 +174,7 @@ runs:
         sed -i "s/CHANGEME/${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}/g" CHANGELOG.md
 
         echo "Staging and committing changes (if any)..."
-        git add 01-locals.tf README.md .terraform-docs.yml || true
+        git add 01-locals.tf README.md .terraform-docs.yml CHANGELOG.md || true
         git commit -m "chore: bump module version to v${{ steps.gitversion.outputs.major }}" || echo "No changes to commit."
 
         echo "Tagging and pushing v${{ steps.gitversion.outputs.major }}..."
@@ -218,7 +218,7 @@ runs:
         fi
 
         echo "Staging and committing changes (if any)..."
-        git add 01-locals.tf README.md .terraform-docs.yml CHANGELOG.md || true
+        git add 01-locals.tf README.md .terraform-docs.yml|| true
         git commit -m "chore: bump module version to v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}" || echo "No changes to commit."
 
         echo "Tagging and pushing v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}..."
