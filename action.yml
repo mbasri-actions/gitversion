@@ -120,9 +120,9 @@ runs:
         ## [CHANGEME](${{ github.server_url }}/${{ github.repository }}/compare/{{ previous.version }}...CHANGEME) ({{ now() | date(format="%Y-%m-%d") }})
 
         {% for commit in commits %}
-        #{% if not commit.message | contains(pat="bump") %}
+        
         - {{ commit.message | split(pat="\n") | first | upper_first }}
-        #{% endif %}
+        
         {% endfor %}
 
         """
@@ -183,9 +183,6 @@ runs:
         # Delete existing tags if they exist
         git tag -d v${{ env.MAJOR_VERSION }} v${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }} || true
         git push origin ":refs/tags/v${{ env.MAJOR_VERSION }}" ":refs/tags/v${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}" || true
-
-        #git tag -d "v${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}" || true
-        #git push origin ":refs/tags/v${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}" || true
 
         # Generate changelog
         git cliff --config ${{ inputs.cliffConfigFilePath }} -u --prepend CHANGELOG.md
