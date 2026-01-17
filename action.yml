@@ -51,15 +51,15 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - name: Install Terraform
-      if: ${{ inputs.isTerraformModule == 'true' }}
-      uses: hashicorp/setup-terraform@v3
+    # - name: Install Terraform
+    #   if: ${{ inputs.isTerraformModule == 'true' }}
+    #   uses: hashicorp/setup-terraform@v3
 
-    - name: Terraform fmt
-      if: ${{ inputs.isTerraformModule == 'true' }}
-      shell: bash
-      run: terraform fmt -check
-      continue-on-error: false
+    # - name: Terraform fmt
+    #   if: ${{ inputs.isTerraformModule == 'true' }}
+    #   shell: bash
+    #   run: terraform fmt -check
+    #   continue-on-error: false
 
     - name: Create default GitVersion config
       if: ${{ inputs.useGitVersionDefaultConfig == 'true' }}
