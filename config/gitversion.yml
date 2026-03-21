@@ -11,6 +11,7 @@ strategies:
   - MergeMessage
   - TaggedCommit
   - TrackReleaseBranches
+  - VersionInBranchName
 branches:
   main:
     mode: ContinuousDeployment
