@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.1.1](https://github.com/mbasri-actions/gitversion/compare/v1...v1.1.1) (2026-03-21)
+
+- Changed JavaScript actions to consistently use Node.js version 24 in CI workflow
+
 ## [v1.1.0](https://github.com/mbasri-actions/gitversion/compare/v1.0.0...v1.1.0) (2026-03-21)
 
 - Added automated versioning workflow to streamline release processes
