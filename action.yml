@@ -110,8 +110,17 @@ runs:
     - name: Commit, tag and push
       shell: bash
       run: |
+        MAJOR="${{ steps.gitversion.outputs.major }}"
+        MAJOR_MINOR="${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}"
         VERSION="${{ env.MAJOR_MINOR_PATCH_VERSION }}"
+
         git commit -m "chore: bump version to v${VERSION}" || echo "No changes to commit."
+
+        git tag -f "v${MAJOR}"
+        git tag -f "v${MAJOR_MINOR}"
         git tag "v${VERSION}"
+
+        git push origin -f "v${MAJOR}"
+        git push origin -f "v${MAJOR_MINOR}"
         git push origin "v${VERSION}"
         git push origin $(git rev-parse --abbrev-ref HEAD)
