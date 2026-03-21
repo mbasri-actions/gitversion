@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.1.6](https://github.com/mbasri-actions/gitversion/compare/v1.1.5...v1.1.6) (2026-03-21)
+
+- Simplified Terraform update status presentation in CI job summary
+
 ## [v1.1.5](https://github.com/mbasri-actions/gitversion/compare/v1.1.4...v1.1.5) (2026-03-21)
 
 - Expanded release job summary in CI workflows to include detailed metrics and commit logs
