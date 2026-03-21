@@ -168,7 +168,7 @@ runs:
         git add 01-locals.tf README.md .terraform-docs.yml
         echo "==> Terraform version files updated."
 
-        echo ":white_check_mark: **Terraform files** — \`01-locals.tf\` \`README.md\` \`.terraform-docs.yml\`" >> $GITHUB_STEP_SUMMARY
+        echo ":white_check_mark: **Terraform files** — Version updated" >> $GITHUB_STEP_SUMMARY
 
     - name: Commit, tag and push
       shell: bash
