@@ -32,7 +32,8 @@ runs:
       id: config
       shell: bash
       run: |
-        echo "gitVersionConfigPath=${${{ inputs.gitVersionConfigPath }}:-${GITHUB_ACTION_PATH}/config/gitversion.yml}" >> $GITHUB_OUTPUT
+        CONFIG_PATH="${{ inputs.gitVersionConfigPath }}"
+        echo "gitVersionConfigPath=${CONFIG_PATH:-${GITHUB_ACTION_PATH}/config/gitversion.yml}" >> $GITHUB_OUTPUT
 
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v4
@@ -56,7 +57,8 @@ runs:
     - name: Prepare CHANGELOG prompt
       shell: bash
       run: |
-        PROMPT_TEMPLATE="${${{ inputs.changeLogPromptPath }}:-${GITHUB_ACTION_PATH}/config/changelog.prompt.tpl}"
+        PROMPT_PATH="${{ inputs.changeLogPromptPath }}"
+        PROMPT_TEMPLATE="${PROMPT_PATH:-${GITHUB_ACTION_PATH}/config/changelog.prompt.tpl}"
 
         export VERSION="${{ env.MAJOR_MINOR_PATCH_VERSION }}"
         export GIT_LOG=$(git log "${{ env.PREVIOUS_TAG }}...HEAD" --pretty=format:"%s")
