@@ -185,10 +185,20 @@ runs:
 
         ENTRY=$(printf '%s\n\n%s' "$COMPARE_LINK" "$CHANGELOG_BODY")
 
-        awk -v entry="$ENTRY" '
-          /^## \[Unreleased\]/ { print; printf "\n%s\n", entry; next }
-          { print }
-        ' CHANGELOG.md > CHANGELOG.md.tmp && mv CHANGELOG.md.tmp CHANGELOG.md
+        # Insert after "## [Unreleased]" if present, otherwise after the header block
+        if grep -q "^## \[Unreleased\]" CHANGELOG.md; then
+          awk -v entry="$ENTRY" '
+            /^## \[Unreleased\]/ { print; printf "\n%s\n", entry; next }
+            { print }
+          ' CHANGELOG.md > CHANGELOG.md.tmp
+        else
+          awk -v entry="$ENTRY" '
+            /^All notable changes/ { print; printf "\n%s\n", entry; next }
+            { print }
+          ' CHANGELOG.md > CHANGELOG.md.tmp
+        fi
+
+        mv CHANGELOG.md.tmp CHANGELOG.md
 
         echo "==> Changelog generated successfully with Claude AI."
 
