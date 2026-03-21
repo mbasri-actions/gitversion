@@ -131,14 +131,9 @@ runs:
       env:
         ANTHROPIC_API_KEY: ${{ inputs.anthropicApiKey }}
       run: |
-
-        if [ -n "${env.PREVIOUS_TAG}" ]; then
-          COMPARE_LINK="## [v${env.MAJOR_MINOR_VERSION}](${env.REPO_URL}/compare/${env.PREVIOUS_TAG}...v${env.MAJOR_MINOR_VERSION}) (${env.TODAY})"
-          GIT_LOG=$(git log "${env.PREVIOUS_TAG}...HEAD" --pretty=format:"%s")
-        else
-          COMPARE_LINK="## [v${env.MAJOR_MINOR_VERSION}](${env.REPO_URL}/tree/v${env.MAJOR_MINOR_VERSION}) (${env.TODAY})"
-          GIT_LOG=$(git log -10 --pretty=format:"%s")
-        fi
+        
+        COMPARE_LINK="## [v${env.MAJOR_MINOR_VERSION}](${env.REPO_URL}/compare/${env.PREVIOUS_TAG}...v${env.MAJOR_MINOR_VERSION}) (${env.TODAY})"
+        GIT_LOG=$(git log "${env.PREVIOUS_TAG}...HEAD" --pretty=format:"%s")
 
         EXISTING_CHANGELOG=$(cat CHANGELOG.md 2>/dev/null || echo "")
 
