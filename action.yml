@@ -67,7 +67,7 @@ runs:
       id: config
       shell: bash
       run: |
-        if [ -n "$CUSTOM_CONFIG" ] && [ -f "$CUSTOM_CONFIG" ]; then
+        if [ -n "${{ inputs.gitVersionConfigPath }}" ] && [ -f "${{ inputs.gitVersionConfigPath }}" ]; then
           echo "config-path=${{ inputs.gitVersionConfigPath }}" >> $GITHUB_OUTPUT
         else
           cp "${GITHUB_ACTION_PATH}/config/gitversion.yml" "${GITHUB_WORKSPACE}/gitversion.yml"
