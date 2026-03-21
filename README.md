@@ -20,7 +20,7 @@ This GitHub Action automates the process of determining and tagging the semantic
 
 | Name | Description | Required | Default |
 | --- | --- | --- | --- |
-| <a name="input_gitversion-config"></a> [gitversion-config](#input_gitversion-config) | Path to a custom `gitversion.yml`. If empty, uses the default config bundled with this action. | false | `''` |
+| <a name="input_gitVersionConfigPath"></a> [gitVersionConfigPath](#input_gitVersionConfigPath) | Path to a custom `gitversion.yml`. If empty, uses the default config bundled with this action. | false | `''` |
 | <a name="input_useChangeLogPromptDefaultConfig"></a> [useChangeLogPromptDefaultConfig](#input_useChangeLogPromptDefaultConfig) | Whether to use the default CHANGELOG prompt configuration | false | `'true'` |
 | <a name="input_isTerraformModule"></a> [isTerraformModule](#input_isTerraformModule) | Whether the repository is a Terraform module | false | `'false'` |
 | <a name="input_githubToken"></a> [githubToken](#input_githubToken) | GitHub PAT with `models:read` permission for AI changelog generation | false | `${{ github.token }}` |
