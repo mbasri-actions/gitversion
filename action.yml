@@ -7,6 +7,11 @@ inputs:
     required: false
     default: ''
 
+  isTerraformModule:
+    description: 'Whether the repository is a Terraform module'
+    required: false
+    default: 'false'
+
   changeLogPromptPath:
     description: 'Path to a custom changelog prompt template. If empty, uses the default prompt bundled with this action. Variables ${VERSION}, ${GIT_LOG}, ${EXISTING_CHANGELOG} are substituted at runtime.'
     required: false
@@ -77,11 +82,9 @@ runs:
         model: 'openai/gpt-4o-mini'
         prompt-file: '/tmp/changelog.prompt'
 
-    - name: Update changelog, version files and push tags
+    - name: Update CHANGELOG
       shell: bash
       run: |
-        VERSION="${{ env.MAJOR_MINOR_PATCH_VERSION }}"
-
         ENTRY=$(printf '%s\n\n%s' "$CHANGELOG_COMPARE_LINK" "${{ steps.ai-changelog.outputs.response }}")
 
         awk -v entry="$ENTRY" '
@@ -90,18 +93,25 @@ runs:
         ' CHANGELOG.md > CHANGELOG.md.tmp
 
         mv CHANGELOG.md.tmp CHANGELOG.md
+        git add CHANGELOG.md
         echo "==> Changelog updated."
 
-        # Update version in Terraform files
+    - name: Update Terraform module version files
+      if: ${{ inputs.isTerraformModule == 'true' }}
+      shell: bash
+      run: |
+        VERSION="${{ env.MAJOR_MINOR_PATCH_VERSION }}"
         sed -i "s/\(\"technical:module:version\"\).*/\1 : \"${VERSION}\"/" 01-locals.tf
-        sed -i "s/\(terraform-aws-.*?ref=\).*/\1v${VERSION}\"/" README.md
-        sed -i "s/\(terraform-aws-.*?ref=\).*/\1v${VERSION}\"/" .terraform-docs.yml
+        sed -i "s/\(terraform-aws-[^\"]*?ref=\).*/\1v${VERSION}\"/" README.md
+        sed -i "s/\(terraform-aws-[^\"]*?ref=\).*/\1v${VERSION}\"/" .terraform-docs.yml
+        git add 01-locals.tf README.md .terraform-docs.yml
+        echo "==> Terraform version files updated."
 
-        # Single commit with all changes
-        git add CHANGELOG.md 01-locals.tf README.md .terraform-docs.yml || true
+    - name: Commit, tag and push
+      shell: bash
+      run: |
+        VERSION="${{ env.MAJOR_MINOR_PATCH_VERSION }}"
         git commit -m "chore: bump version to v${VERSION}" || echo "No changes to commit."
-
-        # Tag and push
         git tag "v${VERSION}"
         git push origin "v${VERSION}"
         git push origin $(git rev-parse --abbrev-ref HEAD)
