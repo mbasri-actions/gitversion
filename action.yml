@@ -112,6 +112,11 @@ runs:
         echo "MAJOR_VERSION=${{ steps.gitversion.outputs.major }}" >> $GITHUB_ENV
         echo "MINOR_VERSION=${{ steps.gitversion.outputs.minor }}" >> $GITHUB_ENV
         echo "PATCH_VERSION=${{ steps.gitversion.outputs.patch }}" >> $GITHUB_ENV
+        echo "MAJOR_MINOR_VERSION=${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" >> $GITHUB_ENV
+        echo "REPO_URL=${{ github.server_url }}/${{ github.repository }}" >> $GITHUB_ENV
+        echo "PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo \"\")" >> $GITHUB_ENV
+        echo "TODAY=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+
 
     - name: Configure Git
       shell: bash
@@ -126,22 +131,18 @@ runs:
       env:
         ANTHROPIC_API_KEY: ${{ inputs.anthropicApiKey }}
       run: |
-        VERSION="${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}.${{ env.PATCH_VERSION }}"
-        REPO_URL="${{ github.server_url }}/${{ github.repository }}"
-        PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-        TODAY=$(date +%Y-%m-%d)
 
-        if [ -n "$PREVIOUS_TAG" ]; then
-          COMPARE_LINK="## [v${VERSION}](${REPO_URL}/compare/${PREVIOUS_TAG}...v${VERSION}) (${TODAY})"
-          GIT_LOG=$(git log "${PREVIOUS_TAG}...HEAD" --pretty=format:"%s")
+        if [ -n "${env.PREVIOUS_TAG}" ]; then
+          COMPARE_LINK="## [v${env.MAJOR_MINOR_VERSION}](${env.REPO_URL}/compare/${env.PREVIOUS_TAG}...v${env.MAJOR_MINOR_VERSION}) (${env.TODAY})"
+          GIT_LOG=$(git log "${env.PREVIOUS_TAG}...HEAD" --pretty=format:"%s")
         else
-          COMPARE_LINK="## [v${VERSION}](${REPO_URL}/tree/v${VERSION}) (${TODAY})"
+          COMPARE_LINK="## [v${env.MAJOR_MINOR_VERSION}](${env.REPO_URL}/tree/v${env.MAJOR_MINOR_VERSION}) (${env.TODAY})"
           GIT_LOG=$(git log -10 --pretty=format:"%s")
         fi
 
         EXISTING_CHANGELOG=$(cat CHANGELOG.md 2>/dev/null || echo "")
 
-        PROMPT="Generate a changelog entry for version v${VERSION}.
+        PROMPT="Generate a changelog entry for version v${env.MAJOR_MINOR_VERSION}.
 
         Commits since last release:
         ${GIT_LOG}
@@ -160,7 +161,7 @@ runs:
         - Write in English"
 
         PAYLOAD=$(jq -n --arg prompt "$PROMPT" '{
-          "model": "claude-sonnet-4-20250514",
+          "model": "claude-sonnet-4-6",
           "max_tokens": 1024,
           "messages": [{"role": "user", "content": $prompt}]
         }')
