@@ -45,6 +45,8 @@ name: Tag Version
 on:
   push:
     branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -66,7 +68,6 @@ jobs:
       uses: mbasri-actions/gitversion@main
       with:
         isTerraformModule: 'true'
-        githubToken: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## Author
