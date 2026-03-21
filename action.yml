@@ -56,7 +56,7 @@ runs:
       run: |
         echo "MAJOR_MINOR_PATCH_VERSION=${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}" >> $GITHUB_ENV
         echo "REPO_URL=${{ github.server_url }}/${{ github.repository }}" >> $GITHUB_ENV
-        echo "PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo \"\")" >> $GITHUB_ENV
+        echo "PREVIOUS_TAG=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -n1)" >> $GITHUB_ENV
         echo "TODAY=$(date +%Y-%m-%d)" >> $GITHUB_ENV
 
     - name: Prepare CHANGELOG prompt
