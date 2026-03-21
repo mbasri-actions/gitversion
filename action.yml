@@ -162,7 +162,7 @@ runs:
       shell: bash
       run: |
         MAJOR_MINOR_PATCH_VERSION="${{ env.MAJOR_MINOR_PATCH_VERSION }}"
-        sed -i "s/\(\"technical:module:version\"\).*/\1 : \"${MAJOR_MINOR_PATCH_VERSION}\"/" 01-locals.tf
+        sed -i "s/\(\"technical:module:version\"\).*/\1 : \"${MAJOR_MINOR_PATCH_VERSION}\",/" 01-locals.tf
         sed -i "s/\(terraform-aws-[^\"]*?ref=\).*/\1v${MAJOR_MINOR_PATCH_VERSION}\"/" README.md
         sed -i "s/\(terraform-aws-[^\"]*?ref=\).*/\1v${MAJOR_MINOR_PATCH_VERSION}\"/" .terraform-docs.yml
         git add 01-locals.tf README.md .terraform-docs.yml
