@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.1.7](https://github.com/mbasri-actions/gitversion/compare/v1.1.6...v1.1.7) (2026-03-21)
+
+- Added trailing comma to Terraform version update for improved clarity in CI configuration
+
 ## [v1.1.6](https://github.com/mbasri-actions/gitversion/compare/v1.1.5...v1.1.6) (2026-03-21)
 
 - Simplified Terraform update status presentation in CI job summary
