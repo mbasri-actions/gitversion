@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.1.8](https://github.com/mbasri-actions/gitversion/compare/v1.1.7...v1.1.8) (2026-03-22)
+
+- Renamed gitversion workflow and pinned action version for consistency in CI configuration
+
 ## [v1.1.7](https://github.com/mbasri-actions/gitversion/compare/v1.1.6...v1.1.7) (2026-03-21)
 
 - Added trailing comma to Terraform version update for improved clarity in CI configuration
