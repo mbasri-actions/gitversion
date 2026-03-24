@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.1.9](https://github.com/mbasri-actions/semver/compare/v1.1.8...v1.1.9) (2026-03-24)
+
+- Refactored gitversion to semver for clarity in version management
+
 ## [v1.1.8](https://github.com/mbasri-actions/gitversion/compare/v1.1.7...v1.1.8) (2026-03-22)
 
 - Renamed gitversion workflow and pinned action version for consistency in CI configuration
