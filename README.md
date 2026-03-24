@@ -1,4 +1,4 @@
-# Git Version Action
+# Semver Action
 
 This GitHub Action automates the process of determining and tagging the semantic version of your repository using [GitVersion](https://gitversion.net/). It is designed to work with any Git repository and supports custom configuration via a `gitversion.yml` file.
 
@@ -39,7 +39,7 @@ This GitHub Action automates the process of determining and tagging the semantic
 Here's an example of how to use this action in a GitHub Actions workflow:
 
 ```yaml
-name: Tag Version
+name: Release
 
 on:
   push:
@@ -53,7 +53,7 @@ permissions:
   models: read
 
 jobs:
-  build:
+  semver:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Step
@@ -61,10 +61,10 @@ jobs:
       with:
         fetch-depth: 0
         fetch-tags: true
-    
+
     - name: Generate semantic version and tag repository
-      id: gitversion
-      uses: mbasri-actions/gitversion@main
+      id: semver
+      uses: mbasri-actions/semver@v1
       with:
         isTerraformModule: 'true'
 ```

@@ -1,5 +1,5 @@
-name: 'GitVersion Action'
-description: 'This GitHub Action extracts version information using GitVersion and optionally updates Terraform module files and generates changelogs using GitHub Models AI.'
+name: 'Semver'
+description: 'Composite GitHub Action for semantic versioning — calculates version, generates AI changelog, creates tags, and optionally updates Terraform module files.'
 
 inputs:
   gitVersionConfigPath:
